@@ -32,7 +32,7 @@ public class MainScreen implements ActionListener{
 
   public void actionPerformed(ActionEvent e) {
     if (e.getSource() == recordTime) {
-      TimeRecorder t = new TimeRecorder();
+      TimeRecorderScreen t = new TimeRecorderScreen();
       frame.dispose();
     }
   }
