@@ -57,7 +57,6 @@ public class TimeRecorder {
         if (timesArray[5].equals(" ")) timesArray[5] = time;
         else checkChangeCurrentTime(5);
       }
-      System.out.println(timesArray[0] + " " + timesArray[1] + " " + timesArray[2]);
 
       br.close();
 

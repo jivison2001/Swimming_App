@@ -102,7 +102,6 @@ public class TimeRecorderScreen implements ActionListener{
         frame.dispose();
     }
     if (e.getSource() == recordTimeBtn) {
-      System.out.println("Record time");
       String name = selectSwimmer.getSelectedItem().toString();
       String[] event = selectEvent.getSelectedItem().toString().split("\\s+");
       int distance = Integer.parseInt(event[0]);

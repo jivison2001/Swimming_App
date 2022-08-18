@@ -16,7 +16,7 @@ public class TimeViewerScreen  implements ActionListener{
   private JPanel mainPanel, menuBtnPanel, selSwimmerDisBtnPanel;
   private JButton mainMenuBtn, displayTimesBtn;
   private JComboBox selectSwimmer;
-  private JTextArea displayedTimesTxtArea;
+  private JTable tableOfTimes;
   private ArrayList<String> swimmers;
 
   public TimeViewerScreen() {
@@ -42,8 +42,6 @@ public class TimeViewerScreen  implements ActionListener{
     displayTimesBtn = new JButton("Show times");
     displayTimesBtn.addActionListener(this);
 
-    displayedTimesTxtArea = new JTextArea();
-
     Object[][] tableData = {
       {"", "Free","Back","Breast","Fly","IM"},
       {50, "","","","","",""},
@@ -54,13 +52,13 @@ public class TimeViewerScreen  implements ActionListener{
       {1500, "","","","","",""}
     };
     String[] columnHeading = {"","","","","",""};
-    JTable times = new JTable(tableData, columnHeading);
-    times.setEnabled(false);
+    tableOfTimes = new JTable(tableData, columnHeading);
+    tableOfTimes.setEnabled(false);
 
     selSwimmerDisBtnPanel.add(selectSwimmer);
     selSwimmerDisBtnPanel.add(displayTimesBtn);    
     mainPanel.add(selSwimmerDisBtnPanel);
-    mainPanel.add(times);
+    mainPanel.add(tableOfTimes);
     menuBtnPanel.add(mainMenuBtn);
     frame.add(menuBtnPanel);
     frame.add(mainPanel);
@@ -72,7 +70,8 @@ public class TimeViewerScreen  implements ActionListener{
         frame.dispose();
     }
     if (e.getSource() == displayTimesBtn) {
-      
+      String name = selectSwimmer.getSelectedItem().toString();
+      TimeGetter t = new TimeGetter(name,tableOfTimes);
     }
   }
 
