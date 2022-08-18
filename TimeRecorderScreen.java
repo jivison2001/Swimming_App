@@ -16,6 +16,7 @@ public class TimeRecorderScreen implements ActionListener{
   private JComboBox selectSwimmer, selectEvent;
   private JTextField timeTextField;
   private JButton mainMenuBtn, recordTimeBtn;
+  private ArrayList<String> swimmers;
 
   public TimeRecorderScreen() {
     frame = new MyFrame();
@@ -33,7 +34,7 @@ public class TimeRecorderScreen implements ActionListener{
     recordTimeBtnPanel = new JPanel();
     recordTimeBtnPanel.setBounds(0,Constants.SCREEN_HEIGHT - 75,200,100);
 
-    ArrayList<String> swimmers = makeSwimmersList();
+    swimmers = makeSwimmersList();
   
     selectSwimmer = new JComboBox<>(swimmers.toArray());
     selectEvent = new JComboBox<>(Constants.EVENTS);
@@ -91,7 +92,11 @@ public class TimeRecorderScreen implements ActionListener{
       String[] event = selectEvent.getSelectedItem().toString().split("\\s+");
       int distance = Integer.parseInt(event[0]);
       String stroke = event[1];
-      String time = timeTextField.getText();
+      String time = timeTextField.getText().replaceAll(" ", "");
+      //formatting the time to me mm:ss.ms
+      if (time.charAt(1) != ':') {
+        time = "0:" + time;
+      }
       TimeRecorder t = new TimeRecorder(name,distance,stroke,time);
 
     }
