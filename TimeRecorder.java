@@ -1,14 +1,16 @@
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 
 public class TimeRecorder {
-  private int enteredMinutes;
-  private float enteredSeconds;
-  private String time;
-  private String[] timesArray;
+  private int enteredMinutes; // minutes of the entered time
+  private float enteredSeconds; // seconds of the entered time
+  private String time; //entered time in format mm:ss.ms
+  private String[] timesArray; // current times on the csv file
 
   public TimeRecorder(String name, int distance, String stroke, String time) {
     this.time = time;
@@ -59,6 +61,27 @@ public class TimeRecorder {
 
       br.close();
 
+      FileWriter fw = new FileWriter(filePath);
+ 
+      if (stroke.equals("free")) {
+        fw.write("50,100,200,400,800,1500\n");
+        fw.write(
+          timesArray[0] + "," + timesArray[1] + "," + timesArray[2] + "," + timesArray[3] + "," + timesArray[4] + "," + timesArray[5]
+        );
+      }else if (stroke.equals("im")){
+        fw.write("100,200,400\n");
+        fw.write(
+          timesArray[0] + "," + timesArray[1] + "," + timesArray[2]
+        );
+      }else {
+        fw.write("50,100,200\n");
+        fw.write(
+          timesArray[0] + "," + timesArray[1] + "," + timesArray[2]
+        );
+      }
+    
+      fw.close();
+
     } catch (FileNotFoundException e) {
       e.printStackTrace();
     } catch (IOException e) {
@@ -68,7 +91,7 @@ public class TimeRecorder {
 
   /**
    * checks to see whether the current time needs to be changed with the one that has been entered
-   * @param index
+   * @param index the index of the value that might need to be change in the array of current times
    */
   private void checkChangeCurrentTime(int index) {
     /* if (entered time number of minutes is the same the the current time) {
