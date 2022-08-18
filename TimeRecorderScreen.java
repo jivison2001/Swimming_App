@@ -22,7 +22,7 @@ public class TimeRecorderScreen implements ActionListener{
 
   public TimeRecorderScreen() {
     frame = new MyFrame();
-    frame.set_up();
+    frame.setUp();
     mainPanel = new JPanel(new GridLayout(2,1));
     mainPanel.setBounds(50,50,475,475);
     swimmerEventTimePanel = new JPanel(new GridLayout(3,1));
@@ -76,8 +76,6 @@ public class TimeRecorderScreen implements ActionListener{
         swimmers.add(swimmerName);
       }
       myReader.close();
-
-      FileWriter fw;
 
       for (String s:swimmers) {
         String directory = "Swimmers/Times/" + s;

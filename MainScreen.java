@@ -21,7 +21,7 @@ public class MainScreen implements ActionListener{
     viewEventTimes = new JButton("View Times By Event");
     viewTeamSheet = new JButton("Generate Team Sheet");
     
-    frame.set_up();
+    frame.setUp();
     frame.add(mainPanel);
 
     mainPanel.add(recordTime);
