@@ -18,6 +18,7 @@ public class MainScreen implements ActionListener{
     recordTime = new JButton("Record Time");
     recordTime.addActionListener(this);
     viewIndTimes = new JButton("View Indivudal Times");
+    viewIndTimes.addActionListener(this);
     viewEventTimes = new JButton("View Times By Event");
     viewTeamSheet = new JButton("Generate Team Sheet");
     
@@ -33,6 +34,10 @@ public class MainScreen implements ActionListener{
   public void actionPerformed(ActionEvent e) {
     if (e.getSource() == recordTime) {
       TimeRecorderScreen t = new TimeRecorderScreen();
+      frame.dispose();
+    }
+    if (e.getSource() == viewIndTimes) {
+      TimeViewerScreen t = new TimeViewerScreen();
       frame.dispose();
     }
   }
