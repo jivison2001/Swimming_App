@@ -7,6 +7,8 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class TimeRecorderScreen implements ActionListener{
@@ -74,8 +76,23 @@ public class TimeRecorderScreen implements ActionListener{
         swimmers.add(swimmerName);
       }
       myReader.close();
+
+      FileWriter fw;
+
+      for (String s:swimmers) {
+        String directory = "Swimmers/Times/" + s;
+        File dir = new File(directory);
+        dir.mkdir();
+        makeStrokeFile(new File("Swimmers/Times/" + s + "/free.csv"));
+        makeStrokeFile(new File("Swimmers/Times/" + s + "/back.csv"));
+        makeStrokeFile(new File("Swimmers/Times/" + s + "/breast.csv"));
+        makeStrokeFile(new File("Swimmers/Times/" + s + "/fly.csv"));
+        makeStrokeFile(new File("Swimmers/Times/" + s + "/im.csv"));
+      }
     } catch (FileNotFoundException e) {
       System.out.println("File does not exist");
+    } catch (IOException e) {
+      e.printStackTrace();
     }
     swimmers.sort(null);
     return swimmers;
@@ -107,5 +124,19 @@ public class TimeRecorderScreen implements ActionListener{
       splitsPanel.remove_unneeded_textfields(event.split("\\s+")[0]);
     }
     
+  }
+
+  private void makeStrokeFile(File stroke) throws IOException{
+    if(stroke.createNewFile()) {
+      FileWriter fw = new FileWriter(stroke);
+      if (stroke.getName().contains("free.csv")) {
+        fw.write("50,100,200,400,800,1500\n\" \",\" \",\" \",\" \",\" \",\" \"");
+      }else if (stroke.getName().contains("im.csv")) {
+        fw.write("100,200,400\n\" \",\" \",\" \"");
+      }else {
+        fw.write("50,100,200\n\" \",\" \",\" \"");
+      }
+      fw.close();
+    }
   }
 }
