@@ -1,22 +1,23 @@
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class TimeRecorder {
   private int enteredMinutes; // minutes of the entered time
   private float enteredSeconds; // seconds of the entered time
-  private String time; //entered time in format mm:ss.ms
+  private String time, name; //entered time in format mm:ss.ms
   private String[] timesArray; // current times on the csv file
 
   public TimeRecorder(String name, int distance, String stroke, String time) {
     this.time = time;
+    this.name = name;
 
     // creating a file path directing to the correct swimmer and stroke
-    String filePath = "Swimmers/Times/" + name + "/" + stroke +".csv";
+    String filePathSwimmer = "Swimmers/Times/" + name + "/" + stroke +".csv";
     String times = "";
 
     // split the string time into integer minutes and float seconds
@@ -24,10 +25,10 @@ public class TimeRecorder {
     enteredMinutes = Integer.parseInt(timeSplitToMinSecs[0]);
     enteredSeconds = Float.parseFloat(timeSplitToMinSecs[1]);
 
-    File file = new File(filePath);
+    File swimmersTimesFile = new File(filePathSwimmer);
 
     try {
-      BufferedReader br = new BufferedReader(new FileReader(file));
+      BufferedReader br = new BufferedReader(new FileReader(swimmersTimesFile));
 
       br.readLine();
       times = br.readLine().replaceAll("\"", "");
@@ -60,32 +61,95 @@ public class TimeRecorder {
 
       br.close();
 
-      FileWriter fw = new FileWriter(filePath);
+      FileWriter fileWriterForSwimmers = new FileWriter(filePathSwimmer);
  
       if (stroke.equals("free")) {
-        fw.write("50,100,200,400,800,1500\n");
-        fw.write(
+        fileWriterForSwimmers.write("50,100,200,400,800,1500\n");
+        fileWriterForSwimmers.write(
           timesArray[0] + "," + timesArray[1] + "," + timesArray[2] + "," + timesArray[3] + "," + timesArray[4] + "," + timesArray[5]
         );
       }else if (stroke.equals("im")){
-        fw.write("100,200,400\n");
-        fw.write(
+        fileWriterForSwimmers.write("100,200,400\n");
+        fileWriterForSwimmers.write(
           timesArray[0] + "," + timesArray[1] + "," + timesArray[2]
         );
       }else {
-        fw.write("50,100,200\n");
-        fw.write(
+        fileWriterForSwimmers.write("50,100,200\n");
+        fileWriterForSwimmers.write(
           timesArray[0] + "," + timesArray[1] + "," + timesArray[2]
         );
       }
     
-      fw.close();
+      fileWriterForSwimmers.close();
 
+      /* read the whole file and put it into a string ArrayList
+       * make an string array containing each line
+       * loop through the array to see if someones name is already there
+       *  for each line in array
+       *  check if line contains name
+       *  if a line contains name
+       *    compare the times
+       *    if the entered time is faster
+       *      replace current time
+       *    else don't add the entered time
+       *  else don't add entered time
+       */
+      String filePathEvent = "Swimmers/Times/ByEvent/" + Integer.toString(distance) + stroke + ".csv";
+      File eventFile = new File(filePathEvent);
+      BufferedReader br2 = new BufferedReader(new FileReader(eventFile));
+      String line = "";
+      ArrayList<String> eventFileLines = new ArrayList<String>();
+
+      boolean swimmerAlreadyOnFile = false;
+      br2.readLine();
+      while ((line = br2.readLine()) != null) {
+        eventFileLines.add(line + "\n");
+        if (line.contains(name)) swimmerAlreadyOnFile = true;
+      }
+      br2.close();
+
+      if(swimmerAlreadyOnFile) {
+        for (int i = 0; i < eventFileLines.size(); i++) {
+          eventFileLines.set(i, checkContainsName(eventFileLines.get(i)));
+        }
+      } else eventFileLines.add(time + "," + name + "\n");
+      eventFileLines.sort(null);
+
+      FileWriter eventFileWriter = new FileWriter(eventFile);
+      eventFileWriter.write("time,name\n");
+      for (int i = 0; i < eventFileLines.size(); i++) {
+        eventFileWriter.write(eventFileLines.get(i));
+      }
+      eventFileWriter.close();
+      
     } catch (FileNotFoundException e) {
       e.printStackTrace();
     } catch (IOException e) {
       e.printStackTrace();
     }
+  }
+
+  private String checkContainsName(String line) {
+    if (line.contains(name)) {
+      return checkTimeIsFaster(line);
+    } else {
+      return line;
+    }
+  }
+
+  private String checkTimeIsFaster(String line) {
+    String lineWithoutQuotations = line.replaceAll("\"", "");
+    String currentTime = lineWithoutQuotations.split(",")[0];
+    String[] currentTimeSplitMinSecs = currentTime.split(":");
+    int currentMinutes = Integer.parseInt(currentTimeSplitMinSecs[0]);
+    float currentSeconds = Float.parseFloat(currentTimeSplitMinSecs[1]);
+    if (enteredMinutes == currentMinutes) {
+      if (enteredSeconds < currentSeconds) {
+        line = time + "," + name;
+        return line;
+      }
+    }else if (enteredMinutes < currentMinutes) line =  time + "," + name + "\n";
+    return line;
   }
 
   /**
