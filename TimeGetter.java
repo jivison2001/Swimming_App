@@ -3,13 +3,16 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-
 import javax.swing.JTable;
 
+/**
+ * Class that retrieves the times of an individual swimmer and inserts them into the table
+ * on the individual time viewer screen
+ */
 public class TimeGetter {
-  private String name;
-  private String filepath;
-  private JTable tableOfTimes;
+  private String name;         // name of the swimmer.
+  private String filepath;     // the filepath of the swimmers times diretory.
+  private JTable tableOfTimes; // the JTable displayed on the time viewer screen.
 
   public TimeGetter(String name, JTable timesTable) {
     this.name = name;
@@ -22,6 +25,10 @@ public class TimeGetter {
     insertIntoTable("im");
   }
 
+  /**
+   * For each stroke of a swimmer, the times for each distance are insterted into the JTable
+   * @param stroke the stroke which indicates which file to get the times from
+   */
   private void insertIntoTable(String stroke) {
     String times;
     int arrayLength = 3, column = 1;

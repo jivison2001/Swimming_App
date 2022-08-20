@@ -129,6 +129,12 @@ public class TimeRecorder {
     }
   }
 
+  /**
+   * Sees whether each line of the csv file for the event contains the person time that is being entered name
+   * If the name is on the line then check to see if their entered time is faster than the current one on the cv.
+   * @param line a row of a ByStroke csv file that has a swimmers time and name.
+   * @return returns either the same line passed as a parameter or a new line that contains the updated time.
+   */
   private String checkContainsName(String line) {
     if (line.contains(name)) {
       return checkTimeIsFaster(line);
@@ -137,6 +143,12 @@ public class TimeRecorder {
     }
   }
 
+  /**
+   * Check whether a time entered is faster than the one currently
+   * one the stroke sheet
+   * @param line a row of a ByStroke csv file that has a swimmers time and name
+   * @return returns the line which may have changed if the entered time was faster than the one already on the file
+   */
   private String checkTimeIsFaster(String line) {
     String lineWithoutQuotations = line.replaceAll("\"", "");
     String currentTime = lineWithoutQuotations.split(",")[0];
