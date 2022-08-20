@@ -20,7 +20,9 @@ public class MainScreen implements ActionListener{
     viewIndTimes = new JButton("View Indivudal Times");
     viewIndTimes.addActionListener(this);
     viewEventTimes = new JButton("View Times By Event");
+    viewEventTimes.addActionListener(this);
     viewTeamSheet = new JButton("Generate Team Sheet");
+    viewTeamSheet.addActionListener(this);
     
     frame.setUp();
     frame.add(mainPanel);
@@ -38,6 +40,10 @@ public class MainScreen implements ActionListener{
     }
     if (e.getSource() == viewIndTimes) {
       TimeViewerScreen t = new TimeViewerScreen();
+      frame.dispose();
+    }
+    if (e.getSource() == viewEventTimes) {
+      TimeViewerByEvent t = new TimeViewerByEvent();
       frame.dispose();
     }
   }
