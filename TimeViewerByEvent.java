@@ -40,7 +40,7 @@ public class TimeViewerByEvent implements ActionListener{
     selectNoTimesToDisplay = new JComboBox<String>(optionsForQuantityOfTimes);
 
     displayTimesBtn = new JButton("Display Times");
-
+    displayTimesBtn.addActionListener(this);
 
     Object[][] tableData = {
       {"Time","Name"},
@@ -69,7 +69,20 @@ public class TimeViewerByEvent implements ActionListener{
   public void actionPerformed(ActionEvent e) {
     if (e.getSource() == mainMenuBtn) {
       MainScreen m = new MainScreen();
-        frame.dispose();
+      frame.dispose();
+    }
+    if (e.getSource() == displayTimesBtn) {
+      String event = selectEvent.getSelectedItem().toString();
+      int noToDisplay = Integer.parseInt(selectNoTimesToDisplay.getSelectedItem().toString());
+      clearTableValues();
+      TimeGetterByEvent timeGetterByEvent = new TimeGetterByEvent(event, noToDisplay, tableOfTimes);
+    }
+  }
+
+  private void clearTableValues() {
+    for(int i = 1; i <= 40; i++) {
+      tableOfTimes.setValueAt("", i, 0);
+      tableOfTimes.setValueAt("", i, 1);
     }
   }
 }

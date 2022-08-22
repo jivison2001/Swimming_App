@@ -9,12 +9,12 @@ import javax.swing.JTable;
  * Class that retrieves the times of an individual swimmer and inserts them into the table
  * on the individual time viewer screen
  */
-public class TimeGetter {
+public class TimeGetterByName {
   private String name;         // name of the swimmer.
   private String filepath;     // the filepath of the swimmers times diretory.
   private JTable tableOfTimes; // the JTable displayed on the time viewer screen.
 
-  public TimeGetter(String name, JTable timesTable) {
+  public TimeGetterByName(String name, JTable timesTable) {
     this.name = name;
     this.tableOfTimes = timesTable;
     

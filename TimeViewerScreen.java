@@ -71,7 +71,7 @@ public class TimeViewerScreen  implements ActionListener{
     }
     if (e.getSource() == displayTimesBtn) {
       String name = selectSwimmer.getSelectedItem().toString();
-      TimeGetter t = new TimeGetter(name,tableOfTimes);
+      TimeGetterByName t = new TimeGetterByName(name,tableOfTimes);
     }
   }
 
